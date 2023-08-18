@@ -9,8 +9,7 @@ import (
 )
 
 func main() {
-	fmt.Println("Loading questions...")
-	fmt.Println()
+	fmt.Printf("Loading questions...\n\n")
 
 	filePath := "./quiz.csv"
 
@@ -49,6 +48,5 @@ func main() {
 
 	}
 
-	fmt.Println()
-	fmt.Printf("You got %d out of %d correct\n", correct, total)
+	fmt.Printf("\nYou got %d out of %d correct\n", correct, total)
 }
