@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 func main() {
@@ -29,24 +30,51 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("You will asked up to 10 questions or as many as you can answer in 15 seconds")
+
+	quizCh := make(chan bool)
+	timerCh := make(chan interface{})
+
+	go func() {
+		time.Sleep(time.Second * 15)
+		timerCh <- "Time is up"
+	}()
+
 	total := len(records)
+	answered := 0
 	correct := 0
 
-	inputReader := bufio.NewReader(os.Stdin)
+	go func() {
+		inputReader := bufio.NewReader(os.Stdin)
 
-	for _, record := range records {
-		question := record[0]
-		answer := record[1]
+		for _, record := range records {
+			question := record[0]
+			answer := record[1]
 
-		fmt.Printf("%s: ", question)
+			fmt.Printf("%s: ", question)
 
-		input, _, _ := inputReader.ReadLine()
+			input, _, _ := inputReader.ReadLine()
 
-		if string(input) == answer {
-			correct++
+			quizCh <- (string(input) == answer)
 		}
+	}()
 
+Quiz:
+	for {
+		select {
+		case result := <-quizCh:
+			answered++
+			if result {
+				correct++
+			}
+			if answered == total {
+				break Quiz
+			}
+		case <-timerCh:
+			fmt.Println("\n\nTime is up!")
+			break Quiz
+		}
 	}
 
-	fmt.Printf("\nYou got %d out of %d correct\n", correct, total)
+	fmt.Printf("\nYou answered %d questions out of %d and got %d correct\n", answered, total, correct)
 }
