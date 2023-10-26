@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<h4>
+    {{.Title}}
+</h4>
+{{range .Story}}
+<p style="padding: 4px">
+    {{.}}
+</p>
+{{end}}
+
+<div>
+    <ul>
+
+        {{range .Options}}
+        <li>
+
+            <div style="display: flex; align-items: center;">
+                <p style="padding: 4px">
+                    {{.Text}}
+                </p>
+                <a href="/?arc={{.Arc}}">
+                    <button>
+                        Go
+                    </button>
+                </a>
+            </div>
+        </li>
+        {{end}}
+    </ul>
+    <div>

@@ -1,0 +1,7 @@
+go 1.21.1
+
+use ./1-quiz-game
+
+use ./2-url-shortener
+
+use ./3-choose-your-own-adventure
