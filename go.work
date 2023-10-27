@@ -4,4 +4,7 @@ use ./1-quiz-game
 
 use ./2-url-shortener
 
-use ./3-choose-your-own-adventure
+use (
+	./3-choose-your-own-adventure
+	./3_5-cyoa-cli
+)
